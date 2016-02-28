@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Lists extends Model
 {
+    public $percent = 0;
     protected $fillable = ['name', 'category', 'price', 'bought'];
 
     public function getShopLists(){
@@ -29,5 +30,8 @@ class Lists extends Model
     public function getPriceCategories($startdate, $enddate){
         $priceCategories =  $this->where('bought', '=', 1)->whereBetween('created_at', [$startdate, $enddate])->select('*', DB::raw('SUM(price) as totalPrice'))->groupBy('category')->get();
         return $priceCategories;
+    }
+    public function setPercent($total = 0) {
+        $this->percent = round($this->totalPrice / $total * 100, 2);
     }
 }

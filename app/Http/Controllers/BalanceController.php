@@ -25,8 +25,14 @@ class BalanceController extends Controller
             $enddate = $dt->setDate(2016, 12, 31)->toDateTimeString();
         }
         $lists = $listsModel->getBoughtItems($startdate, $enddate);
-        $categories = $categoriesModel->getCategories();
         $priceCategories = $listsModel->getPriceCategories($startdate, $enddate);
+        $sum = 0;
+        foreach($priceCategories as $category) {
+            $sum += $category->totalPrice;
+        }
+        foreach($priceCategories as $category) {
+            $category->setPercent($sum);
+        }
         $active = 'balance';
         $menu = Menu::getAll();
         return view('buylist.balance', ['lists' => $lists, 'priceCategories' => $priceCategories, 'active' => $active, 'menu' => $menu]);

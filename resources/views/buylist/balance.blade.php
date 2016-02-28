@@ -58,7 +58,7 @@
                         <tr>
                             <td>{{ $priceCategory->category }}</td>
                             <td>{{ $priceCategory->totalPrice }}</td>
-                            <td>20%</td>
+                            <td>{{ $priceCategory->percent }} %</td>
                         </tr>
                     @endforeach
                 </tbody>
